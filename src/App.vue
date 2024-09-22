@@ -1,47 +1,50 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue'
+import FoodCard from './components/FoodCard.vue'
+const foods = ref([
+  { name: '寿司' },
+  { name: 'ハンバーガー' },
+  { name: '焼肉' },
+  { name: '麵系' },
+  { name: 'たこ焼き' },
+  { name: 'おでん' },
+  { name: '丼系' },
+  { name: 'オムライス' },
+  { name: 'イタリアン' },
+  { name: '中華料理' },
+  { name: 'とんかつ' },
+  { name: '韓国調理' },
+  { name: 'カレー' },
+  { name: '鍋系' },
+  { name: '居酒屋' },
+  { name: 'ファミレス' }
+])
+const pickedFoodIndex = ref(0)
+const newFoodIndex = ref(1)
+function pickFood(index) {
+  pickedFoodIndex.value = index
+  newFoodIndex.value++
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
   <main>
-    <TheWelcome />
+    <h1 class="title">今日何食べる？</h1>
+    <FoodCard :name="foods[pickedFoodIndex].name" @click="pickFood(pickedFoodIndex)" />
+    <template v-if="newFoodIndex < foods.length">
+      <p>VS</p>
+      <FoodCard :name="foods[newFoodIndex].name" @click="pickFood(newFoodIndex)" />
+    </template>
   </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+main {
+  width: 350px;
+  margin: 100px auto;
+  text-align: auto;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.title {
+  margin-bottom: 60px;
 }
 </style>
